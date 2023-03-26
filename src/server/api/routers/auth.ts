@@ -50,7 +50,7 @@ export const authRouter = createTRPCRouter({
           const session = await ctx.prisma.sesssion.create({
             data: {
               session: sessionId,
-              expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+              expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
               userId: account.id,
             },
           });
