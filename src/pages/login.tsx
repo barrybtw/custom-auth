@@ -15,7 +15,7 @@ const schema = z
   .required();
 
 const Home: NextPage = () => {
-  const { mutateAsync: signup } = api.auth.signup.useMutation();
+  const { mutateAsync: login } = api.auth.login.useMutation();
 
   const {
     register,
@@ -28,11 +28,8 @@ const Home: NextPage = () => {
   const onSubmit = async (data: any) => {
     console.log(data);
 
-    const loginattempt = await signup({
-      email: data.email,
-      password: data.password,
-    });
-    console.log(loginattempt);
+    const thingy = await login({ email: data.email, password: data.password });
+    console.log(thingy);
   };
 
   return (

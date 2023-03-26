@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 
 export const authRouter = createTRPCRouter({
   signup: publicProcedure
@@ -41,7 +42,19 @@ export const authRouter = createTRPCRouter({
       if (account) {
         const valid = await bcrypt.compare(password, account.password_hash);
         if (valid) {
-          return account;
+          // generate session id
+          // store session id in db
+          // return session id
+
+          const sessionId = crypto.randomUUID();
+          const session = await ctx.prisma.sesssion.create({
+            data: {
+              session: sessionId,
+              expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+              userId: account.id,
+            },
+          });
+          return session.session;
         }
       }
       return null;
