@@ -54,9 +54,10 @@ export const authRouter = createTRPCRouter({
               userId: account.id,
             },
           });
-          return session.session;
+          ctx.res.setHeader("Set-Cookie", `session=${sessionId}`);
+          return "success";
         }
       }
-      return null;
+      return "fail";
     }),
 });
